@@ -44,6 +44,15 @@ public class PostController {
     }
 
     @CrossOrigin
+    @PutMapping(value = "/post/{id}")
+    public PostDto update(@PathVariable Long id, @RequestBody PostDto postDto){
+        Post post = postService.findById(id).get();
+        post.setMessage(postDto.getMessage());
+        post.setComment(postDto.getComment());
+        return postDtoAssembler.toDto(postService.save(post));
+    }
+
+    @CrossOrigin
     @DeleteMapping(value = "/post/{id}")
     public PostDto delete(@PathVariable Long id) {
         Post post = postService.findById(id).get();
