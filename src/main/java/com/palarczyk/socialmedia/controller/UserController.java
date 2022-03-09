@@ -4,10 +4,10 @@ import com.palarczyk.socialmedia.DTO.UserDto;
 import com.palarczyk.socialmedia.assembler.UserDtoAssembler;
 import com.palarczyk.socialmedia.domain.User;
 import com.palarczyk.socialmedia.service.UserService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -29,5 +29,13 @@ public class UserController {
         user.setLastName(userDto.getLastName());
         user.setPassword(userDto.getPassword());
         return userDtoAssembler.toDto(userService.save(user));
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/users")
+    public List<UserDto> all(){
+        return userService.all().stream()
+                .map(userDtoAssembler::toDto)
+                .collect(Collectors.toList());
     }
 }
