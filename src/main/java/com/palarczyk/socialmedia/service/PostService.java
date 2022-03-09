@@ -16,15 +16,15 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post save (Post post){
+    public Post save(Post post) {
         return postRepository.save(post);
     }
 
-    public List<Post> all (){
+    public List<Post> all() {
         return postRepository.findAll();
     }
 
-    public Optional<Post> findById (Long id){
+    public Optional<Post> findById(Long id) {
         return postRepository.findById(id);
     }
 }

@@ -14,11 +14,11 @@ public class PostDtoAssembler {
         this.modelMapper = modelMapper;
     }
 
-    public PostDto toDto (Post post){
+    public PostDto toDto(Post post) {
         return modelMapper.map(post, PostDto.class);
     }
 
-    public Post fromDto(PostDto postDto){
+    public Post fromDto(PostDto postDto) {
         return modelMapper.map(postDto, Post.class);
     }
 }

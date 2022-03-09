@@ -22,7 +22,7 @@ public class PostController {
 
     @CrossOrigin
     @PostMapping(value = "/post")
-    public PostDto create(@RequestBody PostDto postDto){
+    public PostDto create(@RequestBody PostDto postDto) {
         Post post = new Post();
         post.setMessage(postDto.getMessage());
         post.setComment(postDto.getComment());
@@ -31,7 +31,7 @@ public class PostController {
 
     @CrossOrigin
     @GetMapping(value = "/posts")
-    public List<PostDto> all(){
+    public List<PostDto> all() {
         return postService.all().stream()
                 .map(postDtoAssembler::toDto)
                 .collect(Collectors.toList());
@@ -39,7 +39,7 @@ public class PostController {
 
     @CrossOrigin
     @GetMapping(value = "/post/{id}")
-    public PostDto findOne(@PathVariable Long id){
+    public PostDto findOne(@PathVariable Long id) {
         return postDtoAssembler.toDto(postService.findById(id).get());
     }
 }
