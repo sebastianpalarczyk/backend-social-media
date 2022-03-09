@@ -42,4 +42,12 @@ public class PostController {
     public PostDto findOne(@PathVariable Long id) {
         return postDtoAssembler.toDto(postService.findById(id).get());
     }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/post/{id}")
+    public PostDto delete(@PathVariable Long id) {
+        Post post = postService.findById(id).get();
+        postService.delete(post);
+        return postDtoAssembler.toDto(post);
+    }
 }

@@ -44,4 +44,12 @@ public class UserController {
     public UserDto findOne(@PathVariable Long id) {
         return userDtoAssembler.toDto(userService.findById(id).get());
     }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/user/{id}")
+    public UserDto delete(@PathVariable Long id) {
+        User user = userService.findById(id).get();
+        userService.delete(user);
+        return userDtoAssembler.toDto(user);
+    }
 }
