@@ -36,4 +36,10 @@ public class PostController {
                 .map(postDtoAssembler::toDto)
                 .collect(Collectors.toList());
     }
+
+    @CrossOrigin
+    @GetMapping(value = "/post/{id}")
+    public PostDto findOne(@PathVariable Long id){
+        return postDtoAssembler.toDto(postService.findById(id).get());
+    }
 }
