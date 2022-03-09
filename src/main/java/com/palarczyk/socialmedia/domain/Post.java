@@ -10,16 +10,16 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String massage;
+    private String message;
     private String comment;
 
     public Post(){
 
     }
 
-    public Post(Long id, String massage, String comment) {
+    public Post(Long id, String message, String comment) {
         this.id = id;
-        this.massage = massage;
+        this.message = message;
         this.comment = comment;
     }
 
@@ -31,12 +31,12 @@ public class Post {
         this.id = id;
     }
 
-    public String getMassage() {
-        return massage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMassage(String massage) {
-        this.massage = massage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getComment() {

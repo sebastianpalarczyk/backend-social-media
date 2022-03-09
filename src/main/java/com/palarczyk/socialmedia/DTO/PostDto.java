@@ -3,7 +3,7 @@ package com.palarczyk.socialmedia.DTO;
 public class PostDto {
 
     private Long id;
-    private String massage;
+    private String message;
     private String comment;
 
     public Long getId() {
@@ -14,12 +14,12 @@ public class PostDto {
         this.id = id;
     }
 
-    public String getMassage() {
-        return massage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMassage(String massage) {
-        this.massage = massage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getComment() {

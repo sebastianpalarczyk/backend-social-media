@@ -2,9 +2,9 @@ package com.palarczyk.socialmedia.controller;
 
 import com.palarczyk.socialmedia.DTO.PostDto;
 import com.palarczyk.socialmedia.assembler.PostDtoAssembler;
+import com.palarczyk.socialmedia.domain.Post;
 import com.palarczyk.socialmedia.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +20,16 @@ public class PostController {
         this.postDtoAssembler = postDtoAssembler;
     }
 
+    @CrossOrigin
+    @PostMapping(value = "/post")
+    public PostDto create(@RequestBody PostDto postDto){
+        Post post = new Post();
+        post.setMessage(postDto.getMessage());
+        post.setComment(postDto.getComment());
+        return postDtoAssembler.toDto(postService.save(post));
+    }
+
+    @CrossOrigin
     @GetMapping(value = "/posts")
     public List<PostDto> all(){
         return postService.all().stream()
