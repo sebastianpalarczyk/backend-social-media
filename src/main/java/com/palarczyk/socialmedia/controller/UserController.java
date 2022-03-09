@@ -46,6 +46,17 @@ public class UserController {
     }
 
     @CrossOrigin
+    @PutMapping(value = "/user/{id}")
+    public UserDto update(@PathVariable Long id, @RequestBody UserDto userDto) {
+      User user = userService.findById(id).get();
+      user.setEmail(userDto.getEmail());
+      user.setFirstName(userDto.getFirstName());
+      user.setLastName(userDto.getLastName());
+      user.setPassword(userDto.getPassword());
+      return userDtoAssembler.toDto(userService.save(user));
+    }
+
+    @CrossOrigin
     @DeleteMapping(value = "/user/{id}")
     public UserDto delete(@PathVariable Long id) {
         User user = userService.findById(id).get();
