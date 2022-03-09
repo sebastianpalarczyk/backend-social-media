@@ -22,7 +22,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping(value = "/user")
-    public UserDto create(@RequestBody UserDto userDto){
+    public UserDto create(@RequestBody UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
@@ -33,9 +33,15 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping(value = "/users")
-    public List<UserDto> all(){
+    public List<UserDto> all() {
         return userService.all().stream()
                 .map(userDtoAssembler::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/user/{id}")
+    public UserDto findOne(@PathVariable Long id) {
+        return userDtoAssembler.toDto(userService.findById(id).get());
     }
 }
