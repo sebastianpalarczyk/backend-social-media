@@ -1,4 +1,4 @@
-package com.palarczyk.socialmedia.config;
+package com.palarczyk.socialmedia.domain;
 
 public class LoginCredentials {
 
