@@ -1,39 +1,44 @@
 package com.palarczyk.socialmedia.domain;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@SecondaryTables({
+        @SecondaryTable(name="authorities")
+})
 public class User {
 
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
+    @Id
+    @NotNull
     private String username;
     private String firstName;
     private String lastName;
+    @NotNull
     private String password;
-    private int enabled;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @NotNull
+    private boolean enabled;
+    @NotNull
+    @Column(table="authorities")
+    private String authority;
 
     public User() {
 
     }
 
-    public User(Long id, String email, String username, String firstName, String lastName, String password, int enabled, Set<Role> roles) {
+    public User(Long id, String username, String firstName, String lastName,
+                String password, boolean enabled, String authority) {
         this.id = id;
-        this.email = email;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.enabled = enabled;
-        this.roles = roles;
+        this.authority = authority;
     }
 
     public Long getId() {
@@ -42,14 +47,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {
@@ -84,19 +81,19 @@ public class User {
         this.password = password;
     }
 
-    public int getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(int enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 }

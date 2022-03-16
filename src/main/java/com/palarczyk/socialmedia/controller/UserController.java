@@ -25,7 +25,6 @@ public class UserController {
     @PostMapping(value = "/user")
     public UserDto create(@RequestBody UserDto userDto) {
         User user = new User();
-        user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());

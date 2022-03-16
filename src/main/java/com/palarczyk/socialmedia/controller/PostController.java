@@ -4,14 +4,15 @@ import com.palarczyk.socialmedia.DTO.PostDto;
 import com.palarczyk.socialmedia.assembler.PostDtoAssembler;
 import com.palarczyk.socialmedia.domain.Post;
 import com.palarczyk.socialmedia.service.PostService;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Secured("ROLE_USER")
+@RequestMapping(value = "/app")
 public class PostController {
 
     private final PostService postService;
@@ -33,7 +34,8 @@ public class PostController {
 
     @CrossOrigin
     @GetMapping(value = "/posts")
-    public List<PostDto> all() {
+    public List<PostDto> all(@AuthenticationPrincipal UsernamePasswordAuthenticationToken userToken) {
+        userToken.getAuthorities();
         return postService.all().stream()
                 .map(postDtoAssembler::toDto)
                 .collect(Collectors.toList());
@@ -47,7 +49,7 @@ public class PostController {
 
     @CrossOrigin
     @PutMapping(value = "/post/{id}")
-    public PostDto update(@PathVariable Long id, @RequestBody PostDto postDto){
+    public PostDto update(@PathVariable Long id, @RequestBody PostDto postDto) {
         Post post = postService.findById(id).get();
         post.setMessage(postDto.getMessage());
         post.setComment(postDto.getComment());
