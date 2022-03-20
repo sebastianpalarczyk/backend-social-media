@@ -12,15 +12,18 @@ public class Post {
     private Long id;
     private String message;
     private String comment;
+    @Column(name = "file_id")
+    private Long fileId;
 
     public Post(){
 
     }
 
-    public Post(Long id, String message, String comment) {
+    public Post(Long id, String message, String comment, Long fileId) {
         this.id = id;
         this.message = message;
         this.comment = comment;
+        this.fileId = fileId;
     }
 
     public Long getId() {
@@ -45,5 +48,13 @@ public class Post {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }
