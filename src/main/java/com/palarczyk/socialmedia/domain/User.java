@@ -7,12 +7,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @SecondaryTables({
-        @SecondaryTable(name="authorities")
+        @SecondaryTable(name = "authorities")
 })
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Id
     @NotNull
     private String username;
@@ -23,30 +21,20 @@ public class User {
     @NotNull
     private boolean enabled;
     @NotNull
-    @Column(table="authorities")
+    @Column(table = "authorities")
     private String authority;
 
     public User() {
 
     }
 
-    public User(Long id, String username, String firstName, String lastName,
-                String password, boolean enabled, String authority) {
-        this.id = id;
+    public User(String username, String firstName, String lastName, String password, boolean enabled, String authority) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.enabled = enabled;
         this.authority = authority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

@@ -7,6 +7,7 @@ import com.palarczyk.socialmedia.exception.FileStorageException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -27,45 +28,44 @@ public class FileService {
         this.fileRepository = fileRepository;
     }
 
-    public void save(File file){
+    public void save(File file) {
         fileRepository.save(file);
     }
 
-    public File findFileById(Long id){
+    public File findFileById(Long id) {
         return fileRepository.findFileById(id);
     }
 
-    public File findFileByFileNameAndDateOfRecording(String name, LocalDateTime date){
-        return fileRepository.findFileByFileNameAndDateOfRecording(name,date);
+    public File findFileByFileNameAndDateOfRecording(String name, LocalDateTime date) {
+        return fileRepository.findFileByFileNameAndDateOfRecording(name, date);
     }
 
-    public void delete(File file){
+    public void delete(File file) {
         fileRepository.delete(file);
     }
 
     public void deleteFile(Long id, String name) throws IOException {
-        String fileDri = "src/main/webapp/images/"+id+"/"+name;
-        String folderDri = "src/main/webapp/images/"+id;
+        String fileDri = "src/main/webapp/images/" + id + "/" + name;
+        String folderDri = "src/main/webapp/images/" + id;
         Path pathFile = Paths.get(fileDri);
         Path pathFolder = Paths.get(folderDri);
         Files.deleteIfExists(pathFile);
         Files.deleteIfExists(pathFolder);
     }
 
-    public List<File> findAll(){
+    public List<File> findAll() {
         return fileRepository.findAll();
     }
 
-    public List<File> findFiles(List<Post> posts){
-        return posts.stream().map(e->fileRepository.findFileById(e.getFileId()))
+    public List<File> findFiles(List<Post> posts) {
+        return posts.stream().map(e -> fileRepository.findFileById(e.getFileId()))
                 .collect(Collectors.toList());
     }
 
     public File storeFile(MultipartFile file) {
-
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
-        if(fileName.contains("..")) {
+        if (fileName.contains("..")) {
             throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
         }
 
@@ -76,16 +76,16 @@ public class FileService {
 
     public void saveFileInDisk(MultipartFile multipartFile, File file) throws IOException {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        String uploadDri = "src/main/webapp/images/"+file.getId();
+        String uploadDri = "src/main/webapp/images/" + file.getId();
         Path uploadPath = Paths.get(uploadDri);
-        if(!Files.exists(uploadPath))
+        if (!Files.exists(uploadPath))
             Files.createDirectories(uploadPath);
         try {
             InputStream inputStream = multipartFile.getInputStream();
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        }catch (IOException e){
-            throw new IOException("Nie można załadować pliku "+fileName);
+        } catch (IOException e) {
+            throw new IOException("Nie można załadować pliku " + fileName);
         }
     }
 }
