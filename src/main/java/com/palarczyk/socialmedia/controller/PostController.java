@@ -6,6 +6,7 @@ import com.palarczyk.socialmedia.domain.File;
 import com.palarczyk.socialmedia.domain.Post;
 import com.palarczyk.socialmedia.service.FileService;
 import com.palarczyk.socialmedia.service.PostService;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class PostController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/post")
+    @PostMapping(value = "/post", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public PostDto create(@RequestBody PostDto postDto, @RequestParam("file") MultipartFile multipartFile,
                           @AuthenticationPrincipal UsernamePasswordAuthenticationToken currentUser) throws IOException {
         String username = currentUser.getName();
