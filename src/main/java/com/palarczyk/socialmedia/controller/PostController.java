@@ -32,19 +32,32 @@ public class PostController {
 
     @CrossOrigin
     @PostMapping(value = "/post", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public PostDto create(@RequestBody PostDto postDto, @RequestParam("file") MultipartFile multipartFile,
+    public PostDto create(@RequestPart("file") MultipartFile multipartFile, @RequestPart("message") String message,
                           @AuthenticationPrincipal UsernamePasswordAuthenticationToken currentUser) throws IOException {
         String username = currentUser.getName();
-        Post post = new Post();
+//        Post post = new Post();
+//        File file = fileService.storeFile(multipartFile);
+//        file.prePersist();
+//        fileService.save(file);
+//        fileService.saveFileInDisk(multipartFile, file);
+//        File fileSaved = fileService.findFileByFileNameAndDateOfRecording(file.getFileName(), file.getDateOfRecording());
+//        post.setComment(message);
+//        post.setMessage(message);
+//        post.setUsername(username);
+//        post.setFile(fileSaved);
+//        post.prePersist();
+//        postService.save(post);
         File file = fileService.storeFile(multipartFile);
         file.prePersist();
         fileService.save(file);
         fileService.saveFileInDisk(multipartFile, file);
-        File fileSaved = fileService.findFileByFileNameAndDateOfRecording(file.getFileName(),file.getDateOfRecording());
-        post.setComment(postDto.getComment());
-        post.setMessage(postDto.getMessage());
+        File fileSaved = fileService.findFileByFileNameAndDateOfRecording(file.getFileName(), file.getDateOfRecording());
+
+        // Teraz, gdy plik jest zapisany, możemy stworzyć post
+        Post post = new Post();
+        post.setMessage(message);
         post.setUsername(username);
-        post.setFileId(fileSaved.getId());
+        post.setFile(fileSaved);
         post.prePersist();
         postService.save(post);
         return postDtoAssembler.toDto(postService.save(post));
@@ -54,7 +67,8 @@ public class PostController {
     @GetMapping(value = "/posts")
     public List<PostDto> all(@AuthenticationPrincipal UsernamePasswordAuthenticationToken userToken) {
         userToken.getAuthorities();
-        return postService.all().stream()
+        List<Post> posts = postService.getAllPostsWithFiles();
+        return posts.stream()
                 .map(postDtoAssembler::toDto)
                 .collect(Collectors.toList());
     }

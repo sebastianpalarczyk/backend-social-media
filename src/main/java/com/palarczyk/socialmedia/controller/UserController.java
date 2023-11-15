@@ -6,7 +6,6 @@ import com.palarczyk.socialmedia.domain.User;
 
 
 import com.palarczyk.socialmedia.service.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

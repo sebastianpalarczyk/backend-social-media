@@ -15,10 +15,11 @@ public class Post {
     private String comment;
     @Column(name = "created_date")
     private LocalDateTime date;
-    @Column(name = "file_id")
-    private Long fileId;
     @Column(name = "username")
     private String username;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
+    private File file;
 
     @PrePersist
     public void prePersist() {
@@ -26,16 +27,15 @@ public class Post {
     }
 
     public Post() {
-
     }
 
-    public Post(Long id, String message, String comment, LocalDateTime date, Long fileId, String username) {
+    public Post(Long id, String message, String comment, LocalDateTime date, Long fileId, String username, File file) {
         this.id = id;
         this.message = message;
         this.comment = comment;
         this.date = date;
-        this.fileId = fileId;
         this.username = username;
+        this.file = file;
     }
 
     public Long getId() {
@@ -70,19 +70,19 @@ public class Post {
         this.date = date;
     }
 
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

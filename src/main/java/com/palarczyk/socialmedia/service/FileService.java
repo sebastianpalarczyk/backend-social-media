@@ -57,8 +57,13 @@ public class FileService {
         return fileRepository.findAll();
     }
 
+//    public List<File> findFiles(List<Post> posts) {
+//        return posts.stream().map(e -> fileRepository.findFileById(e.getFileId()))
+//                .collect(Collectors.toList());
+//    }
     public List<File> findFiles(List<Post> posts) {
-        return posts.stream().map(e -> fileRepository.findFileById(e.getFileId()))
+        return posts.stream()
+                .map(post -> post.getFile())
                 .collect(Collectors.toList());
     }
 
